@@ -1,7 +1,5 @@
 console.log("p5.geo Loaded");
 
-var watchUser, watchedLat, watchedLong
-
 p5.prototype.locationCheck = function(){
   if (navigator.geolocation) {
     return true;
@@ -11,7 +9,23 @@ p5.prototype.locationCheck = function(){
 
 }
 
-p5.prototype.getCurrentPosition = function(callback) {
+
+// //test function
+// p5.prototype.getData = function(callback){
+//   var ret = false;
+//   getExternalData(function(data){
+//     ret = data;
+//     if (typeof callback == 'function'){
+//       callback(data)
+//     }
+//   })
+//   return ret;
+// }
+
+
+p5.prototype.getCurrentPosition = function(callback, errorCallback) {
+
+  var ret = {};
 
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(success, geoError);
@@ -19,36 +33,39 @@ p5.prototype.getCurrentPosition = function(callback) {
     geoError();
   };
 
-    function success(position){
-
-        //console.log works and delivers data once it is available
-       console.log(position.coords.latitude);
-       // return always pushes out undefined....
+    function geoError(message){
+      console.log(message.message);
+      ret.error = message.message;
+       if(typeof errorCallback == 'function'){ errorCallback(message.message) };
     }
+
+    function success(position){
+      // console.log(position);
+
+      for(var k in position){
+        if (typeof position[k] == 'object'){
+          ret[k] = {};
+          for(var x in position[k]){
+            ret[k][x] = position[k][x];
+          }
+        } else {
+          ret[k] = position[k];
+        }
+      }
+
+      // ret.timestamp = position.timestamp;
+      // ret.coords = {
+      //   latitude: position.coords.latitude,
+      //   longitude: position.coords.longitude,
+      // }
+      // ret.coords = position.coords;
+      if(typeof callback == 'function'){ callback(position.coords) };
+    }
+
+    return ret;
+
 };
 
-
-
-
-
-
-
-// p5.prototype.getCurrentPosition = function(opts) {
-//   if (navigator.geolocation) {
-//     navigator.geolocation.getCurrentPosition(success, geoError, opts);
-//   }else{
-//     geoError();
-//   };
-
-
-//     function success(position, callback){
-
-//        // console.log(position.coords.latitude);
-//        return position.coords.latitude;      
-//     }
-
-
-// };
 
 
 // p5.prototype.startPositionWatch = function(){
@@ -102,10 +119,8 @@ p5.prototype.getCurrentPosition = function(callback) {
 //   }
 // };
 
-
-
-  // http://www.movable-type.co.uk/scripts/latlong.html
-  // Used Under MIT License
+// http://www.movable-type.co.uk/scripts/latlong.html
+// Used Under MIT License
 p5.prototype.calculateDistance = function(lat1, lon1, lat2, lon2) {
     var R = 3959; // earth radius in Miles
     var dLat = (lat2-lat1) * (Math.PI / 180);
@@ -118,8 +133,7 @@ p5.prototype.calculateDistance = function(lat1, lon1, lat2, lon2) {
     return d;
   }
 
-function geoError(){
-      console.log('geolocation services are not available.');
-    }
-  
+
+
+p5.prototype.registerPreloadMethod('getCurrentPosition'); 
   
