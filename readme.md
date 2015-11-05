@@ -15,4 +15,12 @@ Parts of this activity are made possible by a research grant from Forecast Publi
 
 
 
+###Documentation
 
++ geoCheck()
++ getCurrentPosition()
++ watchPosition()
++ intervalCurrentPosition()
++ clearWatch()
++ calcGeoDistance()
++ geoFence()

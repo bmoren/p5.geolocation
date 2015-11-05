@@ -1,4 +1,4 @@
-console.log("p5.geo Loaded");
+console.log("%c p5.geolocaiton Loaded ", "color:pink; background:black; ");
 
 
 /**
@@ -63,8 +63,40 @@ p5.prototype.getCurrentPosition = function(callback, errorCallback) {
     }
 
     return ret;
-
 };
+
+/**
+* Get User's Current Position on an interval
+*
+* Gets the users current position on an interval. Can be useful if watchPosition is not responsive enough. This can be a resource hog (read:battery) as it is calling the getPosition at the rate of your interval. Set it long for less intense usage.
+* 
+* @method getCurrentPosition
+* @param  {function} a callback to handle the current position data
+* @param  {function} an interval in MS
+* @param  {function} a callback to handle an error
+*/
+p5.prototype.intervalCurrentPosition = function(callback, interval,  errorCallback){
+
+  var gogogadget = 1000;
+  gogogadget = interval;
+
+  if (navigator.geolocation) {
+    setInterval(function(){
+      navigator.geolocation.getCurrentPosition(success, geoError);
+    }, gogogadget)
+  }else{
+    geoError("geolocation not available");
+  };
+
+    function geoError(message){
+      console.log(message.message);
+       if(typeof errorCallback == 'function'){ errorCallback(message.message) };
+    }
+
+    function success(position){
+      if(typeof callback == 'function'){ callback(position.coords) };
+    }
+}
 
 
 /**
@@ -106,33 +138,8 @@ p5.prototype.watchPosition = function(callback, errorCallback, options){
 * @method clearWatch
 */
 p5.prototype.clearWatch = function(){
-
   navigator.geolocation.clearWatch( _posWatch );
-  // console.log( _posWatch );
-
 }
-
-
-
-
-
-
-//       distance = calculateDistance(startPosLat, startPosLong,position.coords.latitude, position.coords.longitude)
-
-//       console.log(distance);
-
-//       if(distance < .05){
-//         $("#message").text("Yes, were inside .05 KM!!! :) A+")
-//       }else if(distance > .05){
-//         $("#message").text("No, not inside .05 KM :(")
-//       }
-//     });
-//   }
-// };
-
-
-
-
 
 /**
 * Calculate the Distance between two points
@@ -166,44 +173,14 @@ p5.prototype.calcGeoDistance = function(lat1, lon1, lat2, lon2, units) {
     return d;
   }
 
-
-p5.prototype.ftToMiles = function(feet){
-  return feet / 5280;
-}
-
-p5.prototype.milesToFeet = function(miles){
-  return miles * 5280;
-}
-
-p5.prototype.kmToMeters = function(km){
-  return km * 1000;
-}
-
-p5.prototype.metersToKm = function(meters){
-  return meters / 1000;
-}
-
-p5.prototype.milesToKm = function(miles){
-  return miles * 1.609344;
-}
-
-p5.prototype.kmToMiles = function(km){
-  return miles / 1.609344;
-}
-
-p5.prototype.convertUnits = function(value1, value2, unit1, unit2 ) {
-  // ??????
-}
-
-
 p5.prototype.geoFence = function(lat, lon, fence, callback, units, options){
   
-  var this.lat = lat;
-  var this.lon = lon;
-  var this.fence = fence;
-  var this.units = 'mi' = units;
-  var this.watch;
-  var this.distance;
+  this.lat = lat;
+  this.lon = lon;
+  this.fence = fence;
+  this.units = units; //////////////////!!!! this SHOULD... work since calcGeoDistance defaults to miles......
+  this.watch;
+  this.distance;
 
 
   if (navigator.geolocation) {
@@ -218,7 +195,7 @@ p5.prototype.geoFence = function(lat, lon, fence, callback, units, options){
 
   function success(position){
 
-    this.distance = calcGeoDistance(this.lat,this.lon, position.coords.latitude, position.coords.longitude, units);
+    this.distance = calcGeoDistance(this.lat,this.lon, position.coords.latitude, position.coords.longitude, this.units);
 
     if(this.distance < this.fence){
       //were inside the fence
