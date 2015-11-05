@@ -88,7 +88,6 @@ p5.prototype.watchPosition = function(callback, errorCallback, options){
 
   function geoError(message){
       console.log(message.message);
-      ret.error = message.message;
        if(typeof errorCallback == 'function'){ errorCallback(message.message) };
     }
 
@@ -155,7 +154,7 @@ p5.prototype.calcGeoDistance = function(lat1, lon1, lat2, lon2, units) {
   if(units == 'km'){
      var R = 6371; //earth radius in KM
   }else{
-    var R = 3959; // earth radius in Miles
+    var R = 3959; // earth radius in Miles (default)
   }
     var dLat = (lat2-lat1) * (Math.PI / 180);
     var dLon = (lon2-lon1) * (Math.PI / 180);
@@ -166,6 +165,70 @@ p5.prototype.calcGeoDistance = function(lat1, lon1, lat2, lon2, units) {
     var d = R * c;
     return d;
   }
+
+
+p5.prototype.ftToMiles = function(feet){
+  return feet / 5280;
+}
+
+p5.prototype.milesToFeet = function(miles){
+  return miles * 5280;
+}
+
+p5.prototype.kmToMeters = function(km){
+  return km * 1000;
+}
+
+p5.prototype.metersToKm = function(meters){
+  return meters / 1000;
+}
+
+p5.prototype.milesToKm = function(miles){
+  return miles * 1.609344;
+}
+
+p5.prototype.kmToMiles = function(km){
+  return miles / 1.609344;
+}
+
+p5.prototype.convertUnits = function(value1, value2, unit1, unit2 ) {
+  // ??????
+}
+
+
+p5.prototype.geoFence = function(lat, lon, fence, callback, units, options){
+  
+  var this.lat = lat;
+  var this.lon = lon;
+  var this.fence = fence;
+  var this.units = 'mi' = units;
+  var this.watch;
+  var this.distance;
+
+
+  if (navigator.geolocation) {
+    this.watch = navigator.geolocation.watchPosition(success, geoError, options);
+  }else{
+    geoError("geolocation not available");
+  };
+
+  function geoError(message){
+    console.log(message);
+  }
+
+  function success(position){
+
+    this.distance = calcGeoDistance(this.lat,this.lon, position.coords.latitude, position.coords.longitude, units);
+
+    if(this.distance < this.fence){
+      //were inside the fence
+      if(typeof callback == 'function'){ callback(true) };
+    }else{
+      if(typeof callback == 'function'){ callback(false) };
+    }
+  }
+
+}
 
 
 //add the get Current position to the preload stack.
