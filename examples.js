@@ -1,25 +1,6 @@
-###p5.geolocation
+/* ~+~+~+~+~ p5.geolocation examples ~+~+~+~+~  */
 
-Common Geolocation techniques & tools for p5.js 
-
-
-+ Get current Lat/long once
-+ Watch Lat/Long
-+ Calculate distance between 2 points in multiple units
-+ ellipse geofence (see above)
-+ geometry geofence
-+ a getCurrentPosition on set interval for minor movements. 
-+
-
-Parts of this activity are made possible by a research grant from Forecast Public Art and the Jerome Foundation
-
-
-
-###Documentation
-#### ~+~+~+~+~ p5.geolocation examples ~+~+~+~+~ 
-
-####~+~+~+~+~ geoCheck(
-```javascript
+/* ~+~+~+~+~ geoCheck()*/
 setup(){
 	if(geoCheck() == true){
 		//geolocation is available
@@ -27,10 +8,8 @@ setup(){
 		//error getting geolocaion
 	}
 }
-```
 
-#### ~+~+~+~+~ getCurrentPosition() used in preload(
-```javascript
+/* ~+~+~+~+~ getCurrentPosition() used in preload()*/
 var startLocation;
 preload(){
 	startLocation = getCurrentPosition();
@@ -39,10 +18,8 @@ preload(){
 draw(){
 	print(startLocation);
 }
-```
 
-#### ~+~+~+~+~ getCurrentPosition() used with a callbac
-```javascript
+/* ~+~+~+~+~ getCurrentPosition() used with a callback*/
 mousePressed(){
 	getCurrentPosition(doThisOnLocation)
 }
@@ -51,10 +28,8 @@ function doThisOnLocation(position){
 	print("lat: " + position.latitude);
 	print("long: " + position.longitude);
 }
-```
 
-#### ~+~+~+~+~ watchPosition() used with a callback
-```javascript
+/* ~+~+~+~+~ watchPosition() used with a callback */
 watchOptions = {
   enableHighAccuracy: false,
   timeout: 5000,
@@ -69,17 +44,13 @@ function positionChanged(position){
 	print("lat: " + position.latitude);
 	print("long: " + position.longitude);
 }
-```
 
-#### ~+~+~+~+~ clearWatch() 
-```javascript
+/* ~+~+~+~+~ clearWatch()  */
 mousePressed(){
 	clearWatch();
 }
-```
 
-#### ~+~+~+~+~ intervalCurrentPosition() used with a callback
-```javascript
+/* ~+~+~+~+~ intervalCurrentPosition() used with a callback */
 setup(){
 	intervalCurrentPosition(positionPing, 1000)
 }
@@ -88,20 +59,18 @@ function positionPing(position){
 	print("lat: " + position.latitude);
 	print("long: " + position.longitude);
 }
-```
 
-#### ~+~+~+~+~ calcGeoDistance()
-```javascript
+/* ~+~+~+~+~ calcGeoDistance() */
+
 var distance;
 mousePressed(){
 	distance = calcGeoDistance(46.785844, -92.015965, 44.940834, -93.311287, 'mi')
 	print(distance);
 
 }
-```
 
-#### ~+~+~+~+~ geoFence()
-```javascript
+/* ~+~+~+~+~ geoFence() */
+
 fenceOptions = {
   enableHighAccuracy: false,
   timeout: 5000,
@@ -116,4 +85,5 @@ function insideTheFence(position){
 	print("user is inside of the fence")
 
 }
-```
+
+

@@ -1,4 +1,4 @@
-console.log("%c p5.geolocaiton Loaded ", "color:pink; background:black; ");
+console.log("%c p5.geolocation Loaded ", "color:pink; background:black; ");
 
 
 /**
@@ -199,9 +199,7 @@ p5.prototype.geoFence = function(lat, lon, fence, callback, units, options){
 
     if(this.distance < this.fence){
       //were inside the fence
-      if(typeof callback == 'function'){ callback(true) };
-    }else{
-      if(typeof callback == 'function'){ callback(false) };
+      if(typeof callback == 'function'){ callback(position.coords) };
     }
   }
 
