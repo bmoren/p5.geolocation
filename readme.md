@@ -18,7 +18,7 @@ Parts of this activity are made possible by a research grant from Forecast Publi
 ###Documentation
 #### ~+~+~+~+~ p5.geolocation examples ~+~+~+~+~ 
 
-####~+~+~+~+~ geoCheck(
+####geoCheck()
 ```javascript
 setup(){
 	if(geoCheck() == true){
@@ -29,7 +29,7 @@ setup(){
 }
 ```
 
-#### ~+~+~+~+~ getCurrentPosition() used in preload(
+#### getCurrentPosition() used in preload()
 ```javascript
 var startLocation;
 preload(){
@@ -41,7 +41,7 @@ draw(){
 }
 ```
 
-#### ~+~+~+~+~ getCurrentPosition() used with a callbac
+#### getCurrentPosition() used with a callback
 ```javascript
 mousePressed(){
 	getCurrentPosition(doThisOnLocation)
@@ -53,7 +53,7 @@ function doThisOnLocation(position){
 }
 ```
 
-#### ~+~+~+~+~ watchPosition() used with a callback
+#### watchPosition() used with a callback
 ```javascript
 watchOptions = {
   enableHighAccuracy: false,
@@ -71,14 +71,14 @@ function positionChanged(position){
 }
 ```
 
-#### ~+~+~+~+~ clearWatch() 
+#### clearWatch() 
 ```javascript
 mousePressed(){
 	clearWatch();
 }
 ```
 
-#### ~+~+~+~+~ intervalCurrentPosition() used with a callback
+#### intervalCurrentPosition() used with a callback
 ```javascript
 setup(){
 	intervalCurrentPosition(positionPing, 1000)
@@ -90,7 +90,7 @@ function positionPing(position){
 }
 ```
 
-#### ~+~+~+~+~ calcGeoDistance()
+#### calcGeoDistance()
 ```javascript
 var distance;
 mousePressed(){
@@ -100,7 +100,7 @@ mousePressed(){
 }
 ```
 
-#### ~+~+~+~+~ geoFence()
+#### geoFence()
 ```javascript
 fenceOptions = {
   enableHighAccuracy: false,
