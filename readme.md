@@ -17,7 +17,7 @@ Parts of this activity are made possible by a research grant from Forecast Publi
 
 ####geoCheck()
 ######geoCheck()
-geoCheck() checks the avalibility of geolocation, returns true if geolocation is available.
+geoCheck() checks the avalibility of geolocation. Returns true if geolocation is available or false if geolocation is not available.
 ```javascript
 setup(){
 	if(geoCheck() == true){
@@ -59,7 +59,7 @@ function doThisOnLocation(position){
 
 #### watchPosition() used with a callback
 ###### watchPosition(callback, errorCallback, options)
-watchPosition() is very similar to getCurrentPosition(), except that it will fire it's callback each time the users position makes a noticable change.
+watchPosition() is very similar to getCurrentPosition(), except that it will fire it's callback each time the users position makes a noticable change. Takes an optional object containing options for accuracy, timeout and age.
 ```javascript
 watchOptions = {
   enableHighAccuracy: false,
@@ -114,7 +114,7 @@ mousePressed(){
 
 #### geoFence()
 ###### geoFence(lat, lon, fence, callback, units, options)
-geoFence() creates a geofence around the provided lat/long point. with a provided radius in provided units('mi' is default). It will fire a callback with an object containitng position data when the user is inside of the geofence.
+geoFence() creates a geofence around the provided lat/long point. with a provided radius in provided units('mi' is default). It will fire a callback with an object containitng position data when the user is inside of the geofence. Takes an optional object containing options for accuracy, timeout and age.
 ```javascript
 fenceOptions = {
   enableHighAccuracy: false,
