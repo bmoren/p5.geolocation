@@ -13,12 +13,11 @@ Common Geolocation techniques & tools for p5.js
 
 Parts of this activity are made possible by a research grant from Forecast Public Art and the Jerome Foundation
 
-
-
-###Documentation
-#### ~+~+~+~+~ p5.geolocation examples ~+~+~+~+~ 
+### ~+~+~+~+~ p5.geolocation examples ~+~+~+~+~ 
 
 ####geoCheck()
+######geoCheck()
+geoCheck() checks the avalibility of geolocation, returns true if geolocation is available.
 ```javascript
 setup(){
 	if(geoCheck() == true){
@@ -30,6 +29,8 @@ setup(){
 ```
 
 #### getCurrentPosition() used in preload()
+###### getCurrentPosition(callback, errorCallback)
+getCurrentPosition() can be used in preload() or with a callback (see below). When used in preload it will return an object containing position elements, latitude, longitude, altitude, etc..
 ```javascript
 var startLocation;
 preload(){
@@ -37,11 +38,14 @@ preload(){
 }
 
 draw(){
-	print(startLocation);
+	print(startLocation.latitude);
+	print(startLocation.longitude);
 }
 ```
 
 #### getCurrentPosition() used with a callback
+###### getCurrentPosition(callback, errorCallback)
+getCurrentPosition() can alse be used with a callback. The callback fires once when the position data becomes available.
 ```javascript
 mousePressed(){
 	getCurrentPosition(doThisOnLocation)
@@ -54,6 +58,8 @@ function doThisOnLocation(position){
 ```
 
 #### watchPosition() used with a callback
+###### watchPosition(callback, errorCallback, options)
+watchPosition() is very similar to getCurrentPosition(), except that it will fire it's callback each time the users position makes a noticable change.
 ```javascript
 watchOptions = {
   enableHighAccuracy: false,
@@ -72,6 +78,8 @@ function positionChanged(position){
 ```
 
 #### clearWatch() 
+###### clearWatch() 
+clearWatch() cancels the watchPosition()
 ```javascript
 mousePressed(){
 	clearWatch();
@@ -79,6 +87,8 @@ mousePressed(){
 ```
 
 #### intervalCurrentPosition() used with a callback
+###### intervalCurrentPosition(callback, interval,  errorCallback)
+intervalCurrentPosition() is a hybrid of watchPosition() and getCurrentPosition(). It executes the getCurretnPosition() function on a interval in Milliseconds. This is useful when you need more nuanced changed location detection than watchPosition() can provide.
 ```javascript
 setup(){
 	intervalCurrentPosition(positionPing, 1000)
@@ -91,6 +101,8 @@ function positionPing(position){
 ```
 
 #### calcGeoDistance()
+###### calcGeoDistance(lat1, lon1, lat2, lon2, units)
+calcGeoDistance() calculates the distance between two points in the provided units (default is 'mi', 'km' is a second option). 
 ```javascript
 var distance;
 mousePressed(){
@@ -101,6 +113,8 @@ mousePressed(){
 ```
 
 #### geoFence()
+###### geoFence(lat, lon, fence, callback, units, options)
+geoFence() creates a geofence around the provided lat/long point. with a provided radius in provided units('mi' is default). It will fire a callback with an object containitng position data when the user is inside of the geofence.
 ```javascript
 fenceOptions = {
   enableHighAccuracy: false,
