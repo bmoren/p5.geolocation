@@ -3,14 +3,6 @@
 Common Geolocation techniques & tools for p5.js 
 
 
-+ Get current Lat/long once
-+ Watch Lat/Long
-+ Calculate distance between 2 points in multiple units
-+ ellipse geofence (see above)
-+ geometry geofence
-+ a getCurrentPosition on set interval for minor movements. 
-+
-
 Parts of this activity are made possible by a research grant from Forecast Public Art and the Jerome Foundation
 
 ### ~+~+~+~+~ p5.geolocation examples ~+~+~+~+~ 
@@ -32,14 +24,15 @@ setup(){
 ###### getCurrentPosition(callback, errorCallback)
 getCurrentPosition() can be used in preload() or with a callback (see below). When used in preload it will return an object containing position elements, latitude, longitude, altitude, etc..
 ```javascript
-var startLocation;
-preload(){
-	startLocation = getCurrentPosition();
+var locationData;
+function preload(){
+	locationData =	getCurrentPosition();
 }
 
-draw(){
-	print(startLocation.latitude);
-	print(startLocation.longitude);
+function setup() {
+	createCanvas(windowWidth, windowHeight);
+	print(locationData.coords.latitude)
+	print(locationData.coords.longitude)
 }
 ```
 
@@ -47,13 +40,13 @@ draw(){
 ###### getCurrentPosition(callback, errorCallback)
 getCurrentPosition() can alse be used with a callback. The callback fires once when the position data becomes available.
 ```javascript
-mousePressed(){
-	getCurrentPosition(doThisOnLocation)
+function setup(){
+    getCurrentPosition(doThisOnLocation)
 }
 
 function doThisOnLocation(position){
-	print("lat: " + position.latitude);
-	print("long: " + position.longitude);
+    print("lat: " + position.latitude);
+    print("long: " + position.longitude);
 }
 ```
 
@@ -61,19 +54,22 @@ function doThisOnLocation(position){
 ###### watchPosition(callback, errorCallback, options)
 watchPosition() is very similar to getCurrentPosition(), except that it will fire it's callback each time the users position makes a noticable change. Takes an optional object containing options for accuracy, timeout and age.
 ```javascript
-watchOptions = {
-  enableHighAccuracy: false,
-  timeout: 5000,
-  maximumAge: 0
-};
+//optional options for watchPosition()
+//watchPosition(positionChanged, watchOptions)
 
-setup(){
-	watchPosition(positionChanged, watchOptions)
+// watchOptions = {
+//   enableHighAccuracy: true,
+//   timeout: 5000,
+//   maximumAge: 0
+// };
+
+function setup(){
+    watchPosition(positionChanged)
 }
 
 function positionChanged(position){
-	print("lat: " + position.latitude);
-	print("long: " + position.longitude);
+    print("lat: " + position.latitude);
+    print("long: " + position.longitude);
 }
 ```
 
@@ -81,34 +77,42 @@ function positionChanged(position){
 ###### clearWatch() 
 clearWatch() cancels the watchPosition()
 ```javascript
-mousePressed(){
+function mousePressed(){
 	clearWatch();
+	print("watchPosition() cleared")
 }
 ```
 
 #### intervalCurrentPosition() used with a callback
 ###### intervalCurrentPosition(callback, interval,  errorCallback)
-intervalCurrentPosition() is a hybrid of watchPosition() and getCurrentPosition(). It executes the getCurretnPosition() function on a interval in Milliseconds. This is useful when you need more nuanced changed location detection than watchPosition() can provide.
+intervalCurrentPosition() is a hybrid of watchPosition() and getCurrentPosition(). It executes the getCurretnPosition() function on a interval in Milliseconds via an optional second parameter, default is 5000ms. This is useful when you need more nuanced changed location detection than watchPosition() can provide.
 ```javascript
-setup(){
-	intervalCurrentPosition(positionPing, 1000)
+function setup(){
+    intervalCurrentPosition(positionPing, 5000)
 }
 
 function positionPing(position){
-	print("lat: " + position.latitude);
-	print("long: " + position.longitude);
+    print("lat: " + position.latitude);
+    print("long: " + position.longitude);
 }
 ```
-
+#### clearIntervalPos() 
+###### clearIntervalPos() 
+clearIntervalPos() cancels the intervalCurrentPosition()
+```javascript
+function mousePressed(){
+	clearIntervalPos();
+	print("intervalCurrentPosition() cleared!")
+}
+```
 #### calcGeoDistance()
 ###### calcGeoDistance(lat1, lon1, lat2, lon2, units)
 calcGeoDistance() calculates the distance between two points in the provided units (default is 'mi', 'km' is a second option). 
 ```javascript
 var distance;
-mousePressed(){
+function setup(){
 	distance = calcGeoDistance(46.785844, -92.015965, 44.940834, -93.311287, 'mi')
 	print(distance);
-
 }
 ```
 
@@ -117,14 +121,16 @@ mousePressed(){
 geoFence() creates a geofence around the provided lat/long point. with a provided radius in provided units('mi' is default). It will fire a callback with an object containitng position data when the user is inside of the geofence. Takes an optional object containing options for accuracy, timeout and age.
 ```javascript
 var fence;
+setup(){
 
-fenceOptions = {
-  enableHighAccuracy: false,
-  timeout: 5000,
-  maximumAge: 0
-};
+	fenceOptions = {
+	  enableHighAccuracy: false,
+	  timeout: 5000,
+	  maximumAge: 0
+	};
 
-fence = new geoFence(44.979779, -93.325499, .05, insideTheFence, 'mi', fenceOptions)
+	fence = new geoFence(44.979779, -93.325499, .05, insideTheFence, 'mi', fenceOptions)
+}
 
 function insideTheFence(position){
 	print("lat: " + position.latitude);

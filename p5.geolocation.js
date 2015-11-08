@@ -75,15 +75,21 @@ p5.prototype.getCurrentPosition = function(callback, errorCallback) {
 * @param  {function} an interval in MS
 * @param  {function} a callback to handle an error
 */
+p5.prototype._intervalPosition = null
 p5.prototype.intervalCurrentPosition = function(callback, interval,  errorCallback){
 
-  var gogogadget = 1000;
+  var gogogadget = 5000;
   gogogadget = interval;
 
   if (navigator.geolocation) {
-    setInterval(function(){
+
+    _intervalPosition = setInterval(function(){
+
+      console.log("pos");
       navigator.geolocation.getCurrentPosition(success, geoError);
+    
     }, gogogadget)
+
   }else{
     geoError("geolocation not available");
   };
@@ -97,6 +103,18 @@ p5.prototype.intervalCurrentPosition = function(callback, interval,  errorCallba
       if(typeof callback == 'function'){ callback(position.coords) };
     }
 }
+
+/**
+* Clear interval Position
+*
+* clears the current intervalCurrentPosition()
+* 
+* @method clearIntervalPos()
+*/
+p5.prototype.clearIntervalPos = function(){
+  window.clearInterval(_intervalPosition);
+}
+
 
 
 /**
@@ -166,7 +184,7 @@ p5.prototype.calcGeoDistance = function(lat1, lon1, lat2, lon2, units) {
     var dLat = (lat2-lat1) * (Math.PI / 180);
     var dLon = (lon2-lon1) * (Math.PI / 180);
     var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-            Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) *
+            Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
             Math.sin(dLon/2) * Math.sin(dLon/2);
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     var d = R * c;
@@ -178,7 +196,7 @@ p5.prototype.geoFence = function(lat, lon, fence, callback, units, options){
   this.lat = lat;
   this.lon = lon;
   this.fence = fence;
-  this.units = units; //////////////////!!!! this SHOULD... work since calcGeoDistance defaults to miles......
+  this.units = units; //this should work since calcGeoDistance defaults to miles.
   this.watch;
   this.distance;
 
