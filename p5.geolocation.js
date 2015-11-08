@@ -191,35 +191,37 @@ p5.prototype.calcGeoDistance = function(lat1, lon1, lat2, lon2, units) {
     return d;
   }
 
-p5.prototype.geoFence = function(lat, lon, fence, callback, units, options){
+p5.prototype.geoFence = function(lat, lon, fence, insideCallback, outsideCallback, units, options){
   
   this.lat = lat;
   this.lon = lon;
   this.fence = fence;
   this.units = units; //this should work since calcGeoDistance defaults to miles.
-  this.watch;
   this.distance;
+  this.insideCallback = insideCallback
+  this.outsideCallback = outsideCallback
 
+    if (navigator.geolocation) {
+      navigator.geolocation.watchPosition(success, geoError, options);
+    }else{
+      geoError("geolocation not available");
+    };
 
-  if (navigator.geolocation) {
-    this.watch = navigator.geolocation.watchPosition(success, geoError, options);
-  }else{
-    geoError("geolocation not available");
-  };
-
-  function geoError(message){
-    console.log(message);
-  }
-
-  function success(position){
-
-    this.distance = calcGeoDistance(this.lat,this.lon, position.coords.latitude, position.coords.longitude, this.units);
-
-    if(this.distance < this.fence){
-      //were inside the fence
-      if(typeof callback == 'function'){ callback(position.coords) };
+    function geoError(message){
+      console.log(message);
     }
-  }
+
+    function success(position){
+
+      this.distance = calcGeoDistance(this.lat,this.lon, position.coords.latitude, position.coords.longitude, this.units);
+
+      if(this.distance < this.fence){
+        //were inside the fence
+        if(typeof callback == 'function'){ this.insideCallback(position.coords) };
+      }else{
+        if(typeof callback == 'function'){ this.outsideCallback(position.coords) };
+      }
+    }
 
 }
 

@@ -1,7 +1,6 @@
 ###p5.geolocation
 
-Common Geolocation techniques & tools for p5.js 
-
+p5.geolocation provides techniques for getting, watching, calculating, and geo fencing users locations. 
 
 Parts of this activity are made possible by a research grant from Forecast Public Art and the Jerome Foundation
 
