@@ -113,16 +113,18 @@ mousePressed(){
 ```
 
 #### geoFence()
-###### geoFence(lat, lon, fence, callback, units, options)
+###### geoFence(lat, lon, fenceDistance, callback, units, options)
 geoFence() creates a geofence around the provided lat/long point. with a provided radius in provided units('mi' is default). It will fire a callback with an object containitng position data when the user is inside of the geofence. Takes an optional object containing options for accuracy, timeout and age.
 ```javascript
+var fence;
+
 fenceOptions = {
   enableHighAccuracy: false,
   timeout: 5000,
   maximumAge: 0
 };
 
-geoFence(44.979779, -93.325499, .05, insideTheFence, 'mi', fenceOptions)
+fence = new geoFence(44.979779, -93.325499, .05, insideTheFence, 'mi', fenceOptions)
 
 function insideTheFence(position){
 	print("lat: " + position.latitude);

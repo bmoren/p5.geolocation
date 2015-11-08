@@ -71,13 +71,15 @@ mousePressed(){
 
 /* ~+~+~+~+~ geoFence() */
 
+var fence;
+
 fenceOptions = {
   enableHighAccuracy: false,
   timeout: 5000,
   maximumAge: 0
 };
 
-geoFence(44.979779, -93.325499, .05, insideTheFence, 'mi', fenceOptions)
+fence = new geoFence(44.979779, -93.325499, .05, insideTheFence, 'mi', fenceOptions)
 
 function insideTheFence(position){
 	print("lat: " + position.latitude);
