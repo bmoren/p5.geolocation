@@ -122,8 +122,8 @@ geoFence() creates a geofence around the provided lat/long point. with a provide
 var fence;
 function setup(){
 
-		//optional options object for geoFence
-		//fence = new geoFence(44.979779, -93.325499, .05, insideTheFence, 'mi', fenceOptions)
+	//optional options object for geoFence
+	//fence = new geoFence(44.979779, -93.325499, .05, insideTheFence, 'mi', fenceOptions)
     // fenceOptions = {
     //   enableHighAccuracy: false,
     //   timeout: 5000,
