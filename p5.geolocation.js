@@ -201,7 +201,7 @@ p5.prototype.geoFence = function(lat, lon, fence, insideCallback, outsideCallbac
   this.insideCallback = insideCallback;
   this.outsideCallback = outsideCallback;
   this.positionWatch = true;
-  this.options;
+  this.options = options;
 
     this.geoError = function(message){
       console.log("geoFence Error :" + message);
@@ -235,8 +235,6 @@ p5.prototype.geoFence = function(lat, lon, fence, insideCallback, outsideCallbac
     }else{
       geoError("geolocation not available");
     };
-
-
 }
 
 //add the get Current position to the preload stack.
