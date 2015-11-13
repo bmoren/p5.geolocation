@@ -75,7 +75,7 @@ p5.prototype.getCurrentPosition = function(callback, errorCallback) {
 * @param  {function} an interval in MS
 * @param  {function} a callback to handle an error
 */
-p5.prototype._intervalPosition = null
+p5.prototype._intervalPosition = null;
 p5.prototype.intervalCurrentPosition = function(callback, interval,  errorCallback){
 
   var gogogadget = 5000;
@@ -115,8 +115,6 @@ p5.prototype.clearIntervalPos = function(){
   window.clearInterval(_intervalPosition);
 }
 
-
-
 /**
 * Watch User's Current Position
 *
@@ -137,7 +135,7 @@ p5.prototype.watchPosition = function(callback, errorCallback, options){
   };
 
   function geoError(message){
-      console.log(message.message);
+      console.log("watch Postition Error" + message);
        if(typeof errorCallback == 'function'){ errorCallback(message.message) };
     }
 
@@ -191,40 +189,55 @@ p5.prototype.calcGeoDistance = function(lat1, lon1, lat2, lon2, units) {
     return d;
   }
 
+
+
 p5.prototype.geoFence = function(lat, lon, fence, insideCallback, outsideCallback, units, options){
   
   this.lat = lat;
   this.lon = lon;
   this.fence = fence;
   this.units = units; //this should work since calcGeoDistance defaults to miles.
-  this.distance;
-  this.insideCallback = insideCallback
-  this.outsideCallback = outsideCallback
+  this.distance = 0.0;
+  this.insideCallback = insideCallback;
+  this.outsideCallback = outsideCallback;
+  this.positionWatch = true;
+  this.options;
+
+    this.geoError = function(message){
+      console.log("geoFence Error :" + message);
+    }
+
+    this.success = function(position){
+      console.log(position)
+
+      // TRYING TO WORK OUT THIS SECTION TO GET THE DISTANCE.
+      console.log(this.lat,this.lon); //why is this undefined?
+      console.log(calcGeoDistance(this.lat,this.lon, position.coords.latitude, position.coords.longitude));
+
+      this.distance = calcGeoDistance(this.lat,this.lon, position.coords.latitude, position.coords.longitude, this.units);
+
+      if(this.distance <= this.fence){
+        //were inside the fence, fire event only once until we leave the fence again. 
+        if(this.positionWatch = true){
+          if(typeof this.insideCallback == 'function'){ this.insideCallback(position.coords) };
+          this.positionWatch = false;
+        }
+
+      }else{
+        //outside the fence, fire events whenever we get and update.
+        if(typeof this.outsideCallback == 'function'){ this.outsideCallback(position.coords) };
+        this.positionWatch = true;
+      }
+    }
 
     if (navigator.geolocation) {
-      navigator.geolocation.watchPosition(success, geoError, options);
+      navigator.geolocation.watchPosition(this.success, this.geoError, this.options);
     }else{
       geoError("geolocation not available");
     };
 
-    function geoError(message){
-      console.log(message);
-    }
-
-    function success(position){
-
-      this.distance = calcGeoDistance(this.lat,this.lon, position.coords.latitude, position.coords.longitude, this.units);
-
-      if(this.distance < this.fence){
-        //were inside the fence
-        if(typeof callback == 'function'){ this.insideCallback(position.coords) };
-      }else{
-        if(typeof callback == 'function'){ this.outsideCallback(position.coords) };
-      }
-    }
 
 }
-
 
 //add the get Current position to the preload stack.
 p5.prototype.registerPreloadMethod('getCurrentPosition'); 
