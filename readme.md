@@ -1,8 +1,18 @@
 ###p5.geolocation
 
-p5.geolocation provides techniques for getting, watching, calculating, and geo fencing users locations. 
+p5.geolocation provides techniques for acquiring, watching, calculating, and geofencing user locations for [p5.js](http://p5js.org/). 
 
-Parts of this activity are made possible by a research grant from Forecast Public Art and the Jerome Foundation
+This activity is made possible by a research & planning grant from [Forecast Public Art](http://forecastpublicart.org/) and the [Jerome Foundation](http://www.jeromefdn.org/). Special thanks to [Derek Anderson](http://mediaupstream.com/).
+
+###p5.geolocation:
++ [geoCheck()](#geocheck)
++ [getCurrentPosition()](#getcurrentposition-used-in-preload)
++ [watchPosition()](#watchposition-used-with-a-callback)
++ [clearWatch()](#clearwatch)
++ [intervalCurrentPosition()](#intervalcurrentposition-used-with-a-callback)
++ [clearIntervalPos()](#clearintervalpos)
++ [calcGeoDistance()](#calcgeodistance)
++ [geoFence()](#geofence)
 
 ### ~+~+~+~+~ p5.geolocation examples ~+~+~+~+~ 
 
@@ -25,13 +35,17 @@ getCurrentPosition() can be used in preload() or with a callback (see below). Wh
 ```javascript
 var locationData;
 function preload(){
-	locationData =	getCurrentPosition();
+    locationData =  getCurrentPosition();
 }
 
 function setup() {
-	createCanvas(windowWidth, windowHeight);
-	print(locationData.coords.latitude)
-	print(locationData.coords.longitude)
+    print(locationData.latitude)
+    print(locationData.longitude)
+    print(locationData.accuracy)
+    print(locationData.altitude)
+    print(locationData.altitudeAccuracy)
+    print(locationData.heading)
+    print(locationData.speed)
 }
 ```
 
@@ -106,7 +120,7 @@ function mousePressed(){
 ```
 #### calcGeoDistance()
 ###### calcGeoDistance(lat1, lon1, lat2, lon2, units)
-calcGeoDistance() calculates the distance between two points in the provided units (default is 'mi', 'km' is a second option). 
+calcGeoDistance() calculates the distance between two points in the provided units (default is 'mi', 'km' is also available). 
 ```javascript
 var distance;
 function setup(){
@@ -114,10 +128,9 @@ function setup(){
 	print(distance);
 }
 ```
-
 #### geoFence()
-###### geoFence(lat, lon, fenceDistance, callback, units, options)
-geoFence() creates a geofence around the provided lat/long point. with a provided radius in provided units('mi' is default). It will fire a callback with an object containitng position data when the user is inside of the geofence. Takes an optional object containing options for accuracy, timeout and age.
+###### geoFence(latitude, longitude, fenceDistance, insideCallback, outsideCallback, units, options)
+geoFence() is class which creates a geofence around the provided lat/long point with a provided radius in provided units('mi' is default). It will fire a callback once with an object containitng position data when the user is inside of the geofence. It will fire a second calllback eachtime the position updates and the user is outside of the geofence. The inside callback will only fire again if the user has stepped outside of the geofence first. Takes an optional object containing options for accuracy, timeout and age.
 ```javascript
 var fence;
 function setup(){
@@ -143,5 +156,18 @@ function outsideTheFence(position){
     print("OUTlat: " + position.latitude);
     print("OUTlong: " + position.longitude);
     print("user is outside of the fence")
+}
+```
+#### geoFence() insideFence boolean
+###### geoFence(latitude, longitude, fenceDistance, insideCallback, outsideCallback, units, options)
+geofence has a useful paramater for checking the fence status. insideFence when called on your geofence object will return true or false depending on the users relationship to the fence. 
+```javascript
+var fence;
+function setup(){
+ 	fence = new geoFence(44.979779, -93.325499, .05)
+}
+
+function draw(){
+	print(fence.insideFence);
 }
 ```
