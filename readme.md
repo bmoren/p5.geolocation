@@ -4,14 +4,15 @@ p5.geolocation provides techniques for getting, watching, calculating, and geo f
 
 This activity is made possible by a research & planning grant from [Forecast Public Art](http://forecastpublicart.org/) and the [Jerome Foundation](http://www.jeromefdn.org/). Special thanks to [Derek Anderson](http://mediaupstream.com/).
 
-### p5.geolocation:
-+ [geoCheck()]()
-+ getCurrentPosition()
-+ watchPosition() 
-+ clearWatch() 
-+ intervalCurrentPosition()
-+ clearIntervalPos() 
-+ geoFence()
+###p5.geolocation:
++ [geoCheck()](#geocheck)
++ [getCurrentPosition()](#getcurrentposition-used-in-preload)
++ [watchPosition()](#watchposition-used-with-a-callback)
++ [clearWatch()](#clearwatch)
++ [intervalCurrentPosition()](#intervalcurrentposition-used-with-a-callback)
++ [clearIntervalPos()](#clearintervalpos)
++ [calcGeoDistance()](#calcgeodistance)
++ [geoFence()](#geofence)
 
 ### ~+~+~+~+~ p5.geolocation examples ~+~+~+~+~ 
 
