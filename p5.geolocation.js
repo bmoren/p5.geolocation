@@ -208,11 +208,6 @@ p5.prototype.geoFence = function(lat, lon, fence, insideCallback, outsideCallbac
     }
 
     this.success = function(position){
-      console.log(position)
-
-      // TRYING TO WORK OUT THIS SECTION TO GET THE DISTANCE.
-      console.log(this.lat,this.lon); //why is this undefined?
-      console.log(calcGeoDistance(this.lat,this.lon, position.coords.latitude, position.coords.longitude));
 
       this.distance = calcGeoDistance(this.lat,this.lon, position.coords.latitude, position.coords.longitude, this.units);
 
@@ -231,7 +226,8 @@ p5.prototype.geoFence = function(lat, lon, fence, insideCallback, outsideCallbac
     }
 
     if (navigator.geolocation) {
-      navigator.geolocation.watchPosition(this.success, this.geoError, this.options);
+      // bind the callbacks to the geoFence 'this' so we can access, this.lat, this.lon, etc..
+      navigator.geolocation.watchPosition(this.success.bind(this), this.geoError.bind(this), this.options);
     }else{
       geoError("geolocation not available");
     };
