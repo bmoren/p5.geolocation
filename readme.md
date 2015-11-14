@@ -150,7 +150,7 @@ geofence has a useful paramater for checking the fence status. insideFence when 
 ```javascript
 var fence;
 function setup(){
- 	fence = new geoFence(44.979779, -93.325499, .05, insideTheFence, outsideTheFence, 'mi')
+ 	fence = new geoFence(44.979779, -93.325499, .05)
 }
 
 function draw(){
