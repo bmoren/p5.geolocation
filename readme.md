@@ -14,6 +14,8 @@ This activity is made possible by a research & planning grant from [Forecast Pub
 + [calcGeoDistance()](#calcgeodistance)
 + [geoFence()](#geofence)
 
+When using the p5.js editor, you must run in browser to emulate or call location events.
+
 ### ~+~+~+~+~ p5.geolocation examples ~+~+~+~+~ 
 
 ####geoCheck()

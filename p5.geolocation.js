@@ -71,6 +71,9 @@ p5.prototype.getCurrentPosition = function(callback, errorCallback) {
     return ret;
 };
 
+//add the get Current position to the preload stack.
+p5.prototype.registerPreloadMethod('getCurrentPosition'); 
+
 /**
 * Get User's Current Position on an interval
 *
@@ -166,7 +169,6 @@ p5.prototype.clearWatch = function(){
 /**
 * Calculate the Distance between two points
 *
-* Watches the users current position
 * 
 * @method watchPosition
 * @param  {float} latitude of the first point
@@ -196,7 +198,20 @@ p5.prototype.calcGeoDistance = function(lat1, lon1, lat2, lon2, units) {
   }
 
 
-
+/**
+* Create a new geofence
+*
+* Watches the users current position and checks to see if they are witihn a set radius of a specified point.
+* 
+* @method watchPosition
+* @param  {float} latitude of the first point
+* @param  {float} longitude of the first point
+* @param  {float} distance from the point to trigger the insideCallback
+* @param  {function} a callback to fire when the user is inside the geoFence
+* @param  {function} a callback to fire when the user is outside the geoFence
+* @param  {string} units to use: 'km' or 'mi', 'mi' is default if left blank
+* @param  {object} an positionOptions object: enableHighAccuracy, maximumAge, timeout 
+*/
 p5.prototype.geoFence = function(lat, lon, fence, insideCallback, outsideCallback, units, options){
   
   this.lat = lat;
@@ -240,7 +255,4 @@ p5.prototype.geoFence = function(lat, lon, fence, insideCallback, outsideCallbac
       geoError("geolocation not available");
     };
 }
-
-//add the get Current position to the preload stack.
-p5.prototype.registerPreloadMethod('getCurrentPosition'); 
   
