@@ -47,17 +47,23 @@ p5.prototype.getCurrentPosition = function(callback, errorCallback) {
     function success(position){
       // console.log(position);
 
-      //see the p5.js github libraries wiki page for more info on what is going on here.
-      for(var k in position){
-        if (typeof position[k] == 'object'){
-          ret[k] = {};
-          for(var x in position[k]){
-            ret[k][x] = position[k][x];
+      //get the entire position object....
+      // //see the p5.js github libraries wiki page for more info on what is going on here.
+      // for(var k in position){
+      //   if (typeof position[k] == 'object'){
+      //     ret[k] = {};
+      //     for(var x in position[k]){
+      //       ret[k][x] = position[k][x];
+      //     }
+      //   } else {
+      //     ret[k] = position[k];
+      //   }
+      // }
+      
+      //get only the coords part of the position object
+          for(var x in position.coords){
+            ret[x] = position.coords[x];
           }
-        } else {
-          ret[k] = position[k];
-        }
-      }
 
       if(typeof callback == 'function'){ callback(position.coords) };
     }
@@ -200,7 +206,7 @@ p5.prototype.geoFence = function(lat, lon, fence, insideCallback, outsideCallbac
   this.distance = 0.0;
   this.insideCallback = insideCallback;
   this.outsideCallback = outsideCallback;
-  this.positionWatch = true;
+  this.insideFence = false;
   this.options = options;
 
     this.geoError = function(message){
@@ -209,21 +215,21 @@ p5.prototype.geoFence = function(lat, lon, fence, insideCallback, outsideCallbac
 
     this.success = function(position){
 
-      console.log(this.positionWatch);
+      console.log(this.insideFence);
 
       this.distance = calcGeoDistance(this.lat,this.lon, position.coords.latitude, position.coords.longitude, this.units);
 
       if(this.distance <= this.fence){
-        //were inside the fence, fire event only once until we leave the fence again. 
-        if(this.positionWatch == true){
-          if(typeof this.insideCallback == 'function'){ this.insideCallback(position.coords) };
-          this.positionWatch = false;
+        //were insideFence the fence, fire event only once until we leave the fence again. 
+        if(this.insideFence == false){
+          if(typeof this.insideFenceCallback == 'function'){ this.insideFenceCallback(position.coords) };
+          this.insideFence = true;
         }
 
       }else{
         //outside the fence, fire events whenever we get and update.
         if(typeof this.outsideCallback == 'function'){ this.outsideCallback(position.coords) };
-        this.positionWatch = true;
+        this.insideFence = false;
       }
     }
 
