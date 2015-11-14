@@ -5,7 +5,7 @@ p5.geolocation provides techniques for getting, watching, calculating, and geo f
 This activity is made possible by a research & planning grant from [Forecast Public Art](http://forecastpublicart.org/) and the [Jerome Foundation](http://www.jeromefdn.org/). Special thanks to [Derek Anderson](http://mediaupstream.com/).
 
 ### p5.geolocation:
-+ [geoCheck()](geoCheck())
++ [geoCheck()]()
 + getCurrentPosition()
 + watchPosition() 
 + clearWatch() 
