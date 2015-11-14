@@ -2,7 +2,16 @@
 
 p5.geolocation provides techniques for getting, watching, calculating, and geo fencing users locations. 
 
-Parts of this activity are made possible by a research grant from Forecast Public Art and the Jerome Foundation
+This activity is made possible by a research & planning grant from [Forecast Public Art](http://forecastpublicart.org/) and the [Jerome Foundation](http://www.jeromefdn.org/). Special thanks to [Derek Anderson](http://mediaupstream.com/).
+
+### p5.geolocation:
++ [geoCheck()](geoCheck())
++ getCurrentPosition()
++ watchPosition() 
++ clearWatch() 
++ intervalCurrentPosition()
++ clearIntervalPos() 
++ geoFence()
 
 ### ~+~+~+~+~ p5.geolocation examples ~+~+~+~+~ 
 
