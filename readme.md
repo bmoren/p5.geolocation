@@ -14,7 +14,10 @@ This activity is made possible by a research & planning grant from [Forecast Pub
 + [calcGeoDistance()](#calcgeodistance)
 + [geoFence()](#geofence)
 
-When using the p5.js editor, you must run in browser to emulate or call location events.
+###### Useful Tips
+When using the p5.js editor, you must run in browser to emulate or receive location events.
+[How to Add a library to your p5.js sketch](https://github.com/processing/p5.js/wiki/Libraries#adding-a-library-to-your-project)
+
 
 ### ~+~+~+~+~ p5.geolocation examples ~+~+~+~+~ 
 
