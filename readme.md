@@ -114,11 +114,9 @@ function setup(){
 	print(distance);
 }
 ```
-
 #### geoFence()
 ###### geoFence(latitude, longitude, fenceDistance, insideCallback, outsideCallback, units, options)
 geoFence() is class which creates a geofence around the provided lat/long point with a provided radius in provided units('mi' is default). It will fire a callback once with an object containitng position data when the user is inside of the geofence. It will fire a second calllback eachtime the position updates and the user is outside of the geofence. The inside callback will only fire again if the user has stepped outside of the geofence first. Takes an optional object containing options for accuracy, timeout and age.
-
 ```javascript
 var fence;
 function setup(){
@@ -146,6 +144,16 @@ function outsideTheFence(position){
     print("user is outside of the fence")
 }
 ```
-#### geoFence()
+#### geoFence() insideFence boolean
 ###### geoFence(latitude, longitude, fenceDistance, insideCallback, outsideCallback, units, options)
-geofence has a useful paramater for checking the fence status. 
+geofence has a useful paramater for checking the fence status. insideFence when called on your geofence object will return true or false depending on the users relationship to the fence. 
+```javascript
+var fence;
+function setup(){
+ 	fence = new geoFence(44.979779, -93.325499, .05, insideTheFence, outsideTheFence, 'mi')
+}
+
+function draw(){
+	print(fence.insideFence);
+}
+```
