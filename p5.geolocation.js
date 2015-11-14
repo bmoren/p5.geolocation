@@ -209,11 +209,13 @@ p5.prototype.geoFence = function(lat, lon, fence, insideCallback, outsideCallbac
 
     this.success = function(position){
 
+      console.log(this.positionWatch);
+
       this.distance = calcGeoDistance(this.lat,this.lon, position.coords.latitude, position.coords.longitude, this.units);
 
       if(this.distance <= this.fence){
         //were inside the fence, fire event only once until we leave the fence again. 
-        if(this.positionWatch = true){
+        if(this.positionWatch == true){
           if(typeof this.insideCallback == 'function'){ this.insideCallback(position.coords) };
           this.positionWatch = false;
         }
