@@ -35,13 +35,12 @@ getCurrentPosition() can be used in preload() or with a callback (see below). Wh
 ```javascript
 var locationData;
 function preload(){
-	locationData =	getCurrentPosition();
+    locationData =  getCurrentPosition();
 }
 
 function setup() {
-	createCanvas(windowWidth, windowHeight);
-	print(locationData.coords.latitude)
-	print(locationData.coords.longitude)
+    print(locationData.latitude)
+    print(locationData.longitude)
 }
 ```
 
