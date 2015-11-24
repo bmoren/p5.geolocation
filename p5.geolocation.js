@@ -230,7 +230,7 @@ p5.prototype.geoFence = function(lat, lon, fence, insideCallback, outsideCallbac
 
     this.success = function(position){
 
-      console.log(this.insideFence);
+      // console.log(this.insideFence);
 
       this.distance = calcGeoDistance(this.lat,this.lon, position.coords.latitude, position.coords.longitude, this.units);
 
