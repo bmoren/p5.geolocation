@@ -1,4 +1,5 @@
 ###p5.geolocation
+![p5.geolocation](p5geolocation.png)
 
 p5.geolocation provides techniques for acquiring, watching, calculating, and geofencing user locations for [p5.js](http://p5js.org/). 
 
