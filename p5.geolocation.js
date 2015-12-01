@@ -237,7 +237,7 @@ p5.prototype.geoFence = function(lat, lon, fence, insideCallback, outsideCallbac
       if(this.distance <= this.fence){
         //were insideFence the fence, fire event only once until we leave the fence again. 
         if(this.insideFence == false){
-          if(typeof this.insideFenceCallback == 'function'){ this.insideFenceCallback(position.coords) };
+          if(typeof this.insideCallback == 'function'){ this.insideCallback(position.coords) };
           this.insideFence = true;
         }
 
