@@ -20,7 +20,7 @@ This activity is made possible by a research & planning grant from [Forecast Pub
 + [How to Add a library to your p5.js sketch](https://github.com/processing/p5.js/wiki/Libraries#adding-a-library-to-your-project)
 
 ##### License
-p5.geolocaiton is licensed under the same license as p5.js, the [GNU LGPL License 2.1](http://choosealicense.com/licenses/lgpl-2.1/). 
+p5.geolocaiton is licensed under the [GNU LGPL 2.1](http://choosealicense.com/licenses/lgpl-2.1/).
 
 
 ### ~+~+~+~+~ p5.geolocation examples ~+~+~+~+~
