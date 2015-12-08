@@ -5,7 +5,7 @@ console.log("%c p5.geolocation Loaded ", "color:pink; background:black; ");
 * Check if locaiton services are available
 *
 * Returns true if geolocation is available
-* 
+*
 * @method locationCheck
 * @return {boolean} true if geolocation is available
 */
@@ -21,8 +21,8 @@ p5.prototype.geoCheck = function(){
 /**
 * Get User's Current Position
 *
-* Gets the users current position. Can be used in preload(), or as a callback. 
-* 
+* Gets the users current position. Can be used in preload(), or as a callback.
+*
 * @method getCurrentPosition
 * @param  {function} a callback to handle the current position data
 * @param  {function} a callback to handle an error
@@ -59,7 +59,7 @@ p5.prototype.getCurrentPosition = function(callback, errorCallback) {
       //     ret[k] = position[k];
       //   }
       // }
-      
+
       //get only the coords part of the position object
           for(var x in position.coords){
             ret[x] = position.coords[x];
@@ -72,13 +72,13 @@ p5.prototype.getCurrentPosition = function(callback, errorCallback) {
 };
 
 //add the get Current position to the preload stack.
-p5.prototype.registerPreloadMethod('getCurrentPosition'); 
+p5.prototype.registerPreloadMethod('getCurrentPosition');
 
 /**
 * Get User's Current Position on an interval
 *
 * Gets the users current position on an interval. Can be useful if watchPosition is not responsive enough. This can be a resource hog (read:battery) as it is calling the getPosition at the rate of your interval. Set it long for less intense usage.
-* 
+*
 * @method getCurrentPosition
 * @param  {function} a callback to handle the current position data
 * @param  {function} an interval in MS
@@ -96,7 +96,7 @@ p5.prototype.intervalCurrentPosition = function(callback, interval,  errorCallba
 
       console.log("pos");
       navigator.geolocation.getCurrentPosition(success, geoError);
-    
+
     }, gogogadget)
 
   }else{
@@ -117,7 +117,7 @@ p5.prototype.intervalCurrentPosition = function(callback, interval,  errorCallba
 * Clear interval Position
 *
 * clears the current intervalCurrentPosition()
-* 
+*
 * @method clearIntervalPos()
 */
 p5.prototype.clearIntervalPos = function(){
@@ -128,11 +128,11 @@ p5.prototype.clearIntervalPos = function(){
 * Watch User's Current Position
 *
 * Watches the users current position
-* 
+*
 * @method watchPosition
 * @param  {function} a callback to handle the current position data
 * @param  {function} a callback to handle an error
-* @param  {object} an positionOptions object: enableHighAccuracy, maximumAge, timeout 
+* @param  {object} an positionOptions object: enableHighAccuracy, maximumAge, timeout
 */
 p5.prototype._posWatch = null;
 p5.prototype.watchPosition = function(callback, errorCallback, options){
@@ -159,7 +159,7 @@ p5.prototype.watchPosition = function(callback, errorCallback, options){
 * Clear the watchPosition
 *
 * clears the current watchPosition
-* 
+*
 * @method clearWatch
 */
 p5.prototype.clearWatch = function(){
@@ -169,7 +169,7 @@ p5.prototype.clearWatch = function(){
 /**
 * Calculate the Distance between two points
 *
-* 
+*
 * @method watchPosition
 * @param  {float} latitude of the first point
 * @param  {float} longitude of the first point
@@ -202,7 +202,7 @@ p5.prototype.calcGeoDistance = function(lat1, lon1, lat2, lon2, units) {
 * Create a new geofence
 *
 * Watches the users current position and checks to see if they are witihn a set radius of a specified point.
-* 
+*
 * @method watchPosition
 * @param  {float} latitude of the first point
 * @param  {float} longitude of the first point
@@ -210,10 +210,10 @@ p5.prototype.calcGeoDistance = function(lat1, lon1, lat2, lon2, units) {
 * @param  {function} a callback to fire when the user is inside the geoFence
 * @param  {function} a callback to fire when the user is outside the geoFence
 * @param  {string} units to use: 'km' or 'mi', 'mi' is default if left blank
-* @param  {object} an positionOptions object: enableHighAccuracy, maximumAge, timeout 
+* @param  {object} an positionOptions object: enableHighAccuracy, maximumAge, timeout
 */
 p5.prototype.geoFence = function(lat, lon, fence, insideCallback, outsideCallback, units, options){
-  
+
   this.lat = lat;
   this.lon = lon;
   this.fence = fence;
@@ -229,20 +229,12 @@ p5.prototype.geoFence = function(lat, lon, fence, insideCallback, outsideCallbac
     }
 
     this.success = function(position){
-
-      // console.log(this.insideFence);
-
       this.distance = calcGeoDistance(this.lat,this.lon, position.coords.latitude, position.coords.longitude, this.units);
 
       if(this.distance <= this.fence){
-        //were insideFence the fence, fire event only once until we leave the fence again. 
-        if(this.insideFence == false){
           if(typeof this.insideCallback == 'function'){ this.insideCallback(position.coords) };
           this.insideFence = true;
-        }
-
       }else{
-        //outside the fence, fire events whenever we get and update.
         if(typeof this.outsideCallback == 'function'){ this.outsideCallback(position.coords) };
         this.insideFence = false;
       }
@@ -255,4 +247,3 @@ p5.prototype.geoFence = function(lat, lon, fence, insideCallback, outsideCallbac
       geoError("geolocation not available");
     };
 }
-  
