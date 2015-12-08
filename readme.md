@@ -1,11 +1,11 @@
-###p5.geolocation
+### p5.geolocation
 ![p5.geolocation](p5geolocation.png)
 
 p5.geolocation provides techniques for acquiring, watching, calculating, and geofencing user locations for [p5.js](http://p5js.org/).
 
 This activity is made possible by a research & planning grant from [Forecast Public Art](http://forecastpublicart.org/) and the [Jerome Foundation](http://www.jeromefdn.org/). Special thanks to [Derek Anderson](http://mediaupstream.com/).
 
-###p5.geolocation:
+### p5.geolocation:
 + [geoCheck()](#geocheck)
 + [getCurrentPosition()](#getcurrentposition-used-in-preload)
 + [watchPosition()](#watchposition-used-with-a-callback)
@@ -25,9 +25,9 @@ p5.geolocaiton is licensed under the [GNU LGPL 2.1](http://choosealicense.com/li
 
 ### ~+~+~+~+~ p5.geolocation examples ~+~+~+~+~
 
-####geoCheck()
-######geoCheck()
-geoCheck() checks the avalibility of geolocation. Returns true if geolocation is available or false if geolocation is not available.
+#### geoCheck()
+###### geoCheck()
+geoCheck() checks the availability of geolocation. Returns true if geolocation is available or false if geolocation is not available.
 ```javascript
 setup(){
 	if(geoCheck() == true){
@@ -60,7 +60,7 @@ function setup() {
 
 #### getCurrentPosition() used with a callback
 ###### getCurrentPosition(callback, errorCallback)
-getCurrentPosition() can alse be used with a callback. The callback fires once when the position data becomes available.
+getCurrentPosition() can also be used with a callback. The callback fires once when the position data becomes available.
 ```javascript
 function setup(){
     getCurrentPosition(doThisOnLocation)
@@ -139,7 +139,7 @@ function setup(){
 ```
 #### geoFence()
 ###### geoFence(latitude, longitude, fenceDistance, insideCallback, outsideCallback, units, options)
-geoFence() is class which creates a geofence around the provided lat/long point with a provided radius in provided units('mi' is default). It will fire a callback once with an object containitng position data when the user is inside of the geofence. It will fire a second calllback eachtime the position updates and the user is outside of the geofence. The inside callback will only fire again if the user has stepped outside of the geofence first. Takes an optional object containing options for accuracy, timeout and age.
+geoFence() is class which creates a geofence around the provided lat/long point with a provided radius in provided units('mi' is default). It will fire a callback with an object containing position data when the user is inside of the geofence each time the location updates. It will fire a second callback each time the position updates and the user is outside of the geofence. Takes an optional object containing options for accuracy, timeout and age.
 ```javascript
 var fence;
 function setup(){
@@ -169,7 +169,7 @@ function outsideTheFence(position){
 ```
 #### geoFence() insideFence boolean
 ###### geoFence(latitude, longitude, fenceDistance, insideCallback, outsideCallback, units, options)
-geofence has a useful paramater for checking the fence status. insideFence when called on your geofence object will return true or false depending on the users relationship to the fence.
+geofence has a useful parameter for checking the fence status. .insideFence when called on your geofence object will return true or false depending on the users relationship to the fence.
 ```javascript
 var fence;
 function setup(){
