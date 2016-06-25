@@ -199,7 +199,7 @@ p5.prototype.calcGeoDistance = function(lat1, lon1, lat2, lon2, units) {
 
 
 /**
-* Create a new geofence
+* Create a new geoFenceCircle
 *
 * Watches the users current position and checks to see if they are witihn a set radius of a specified point.
 *
@@ -207,12 +207,12 @@ p5.prototype.calcGeoDistance = function(lat1, lon1, lat2, lon2, units) {
 * @param  {float} latitude of the first point
 * @param  {float} longitude of the first point
 * @param  {float} distance from the point to trigger the insideCallback
-* @param  {function} a callback to fire when the user is inside the geoFence
-* @param  {function} a callback to fire when the user is outside the geoFence
+* @param  {function} a callback to fire when the user is inside the geoFenceCircle
+* @param  {function} a callback to fire when the user is outside the geoFenceCircle
 * @param  {string} units to use: 'km' or 'mi', 'mi' is default if left blank
 * @param  {object} an positionOptions object: enableHighAccuracy, maximumAge, timeout
 */
-p5.prototype.geoFence = function(lat, lon, fence, insideCallback, outsideCallback, units, options){
+p5.prototype.geoFenceCircle = function(lat, lon, fence, insideCallback, outsideCallback, units, options){
 
   this.lat = lat;
   this.lon = lon;
@@ -225,7 +225,7 @@ p5.prototype.geoFence = function(lat, lon, fence, insideCallback, outsideCallbac
   this.options = options;
 
     this.geoError = function(message){
-      console.log("geoFence Error :" + message);
+      console.log("geoFenceCircle Error :" + message);
     }
 
     this.success = function(position){
@@ -241,7 +241,7 @@ p5.prototype.geoFence = function(lat, lon, fence, insideCallback, outsideCallbac
     }
 
     if (navigator.geolocation) {
-      // bind the callbacks to the geoFence 'this' so we can access, this.lat, this.lon, etc..
+      // bind the callbacks to the geoFenceCircle 'this' so we can access, this.lat, this.lon, etc..
       navigator.geolocation.watchPosition(this.success.bind(this), this.geoError.bind(this), this.options);
     }else{
       geoError("geolocation not available");
