@@ -18,6 +18,7 @@ This activity is made possible by a research & planning grant from [Forecast Pub
 ##### Useful Tips
 + When using the p5.js editor, you must 'run in browser' to emulate or receive location events.
 + [How to Add a library to your p5.js sketch](https://github.com/processing/p5.js/wiki/Libraries#adding-a-library-to-your-project)
++ IMPORTANT: Be aware that Google, Mozilla, Apple, Microsoft, are all in the process of banning several features from web pages that are served from HTTP instead of HTTPS (secure http)(https://sites.google.com/a/chromium.org/dev/Home/chromium-security/deprecating-powerful-features-on-insecure-origins) You can still do this but it needs to be over "secure origins" (such as HTTPS) and this can be done by purchasing a SSL certificate. Contact your hosting provide to see how this can be done. 
 
 ##### License
 p5.geolocaiton is licensed under the [GNU LGPL 2.1](http://choosealicense.com/licenses/lgpl-2.1/).
