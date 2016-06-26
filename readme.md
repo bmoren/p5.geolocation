@@ -229,6 +229,7 @@ function outsideTheFence(position){
 geoFencePolygon also has a useful parameter for checking the fence status. .insideFence when called on your geoFencePolygon object will return true or false depending on the users relationship to the fence.
 ```javascript
 var fence;
+var polygon = [
     {lat: 34.045303, lon: -118.334650},  // top left  
     {lat: 34.045252, lon: -118.334462},  // top right 
     {lat: 34.045131, lon: -118.334498},  // bottom right
