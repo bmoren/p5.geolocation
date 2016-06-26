@@ -13,7 +13,7 @@ This activity is made possible by a research & planning grant from [Forecast Pub
 + [intervalCurrentPosition()](#intervalcurrentposition-used-with-a-callback)
 + [clearIntervalPos()](#clearintervalpos)
 + [calcGeoDistance()](#calcgeodistance)
-+ [geoFence()](#geofence)
++ [geoFenceCircle()](#geoFenceCircle)
 
 ##### Useful Tips
 + When using the p5.js editor, you must 'run in browser' to emulate or receive location events.
@@ -137,22 +137,22 @@ function setup(){
 	print(distance);
 }
 ```
-#### geoFence()
-###### geoFence(latitude, longitude, fenceDistance, insideCallback, outsideCallback, units, options)
-geoFence() is class which creates a geofence around the provided lat/long point with a provided radius in provided units('mi' is default). It will fire a callback with an object containing position data when the user is inside of the geofence each time the location updates. It will fire a second callback each time the position updates and the user is outside of the geofence. Takes an optional object containing options for accuracy, timeout and age.
+#### geoFenceCircle()
+###### geoFenceCircle(latitude, longitude, fenceDistance, insideCallback, outsideCallback, units, options)
+geoFenceCircle() is class which creates a geoFenceCircle around the provided lat/long point with a provided radius in provided units('mi' is default). It will fire a callback with an object containing position data when the user is inside of the geoFenceCircle each time the location updates. It will fire a second callback each time the position updates and the user is outside of the geoFenceCircle. Takes an optional object containing options for accuracy, timeout and age.
 ```javascript
 var fence;
 function setup(){
 
-	//optional options object for geoFence
-	//fence = new geoFence(44.979779, -93.325499, .05, insideTheFence, 'mi', fenceOptions)
+	//optional options object for geoFenceCircle
+	//fence = new geoFenceCircle(44.979779, -93.325499, .05, insideTheFence, 'mi', fenceOptions)
     // fenceOptions = {
     //   enableHighAccuracy: false,
     //   timeout: 5000,
     //   maximumAge: 0
     // };
 
-    fence = new geoFence(44.979779, -93.325499, 0.05, insideTheFence, outsideTheFence, 'mi')
+    fence = new geoFenceCircle(44.979779, -93.325499, 0.05, insideTheFence, outsideTheFence, 'mi')
 }
 
 function insideTheFence(position){
@@ -167,16 +167,77 @@ function outsideTheFence(position){
     print("user is outside of the fence")
 }
 ```
-#### geoFence() insideFence boolean
-###### geoFence(latitude, longitude, fenceDistance, insideCallback, outsideCallback, units, options)
-geofence has a useful parameter for checking the fence status. .insideFence when called on your geofence object will return true or false depending on the users relationship to the fence.
+#### geoFenceCircle() insideFence boolean
+###### geoFenceCircle(latitude, longitude, fenceDistance, insideCallback, outsideCallback, units, options)
+geoFenceCircle has a useful parameter for checking the fence status. .insideFence when called on your geoFenceCircle object will return true or false depending on the users relationship to the fence.
 ```javascript
 var fence;
 function setup(){
- 	fence = new geoFence(44.979779, -93.325499, 0.05)
+ 	fence = new geoFenceCircle(44.979779, -93.325499, 0.05)
 }
 
 function draw(){
 	print(fence.insideFence);
+}
+```
+
+
+
+#### geoFencePolygon()
+###### geoFencePolygon(ArrayOfObjectsWithLatLong, insideCallback, outsideCallback, units, options)
+geoFencePolygon() is class which creates a geoFencePolygon around the provided array of object that contain lat/long points. It will fire a callback with an object containing position data when the user is inside of the geoFencePolygon each time the location updates. It will fire a second callback each time the position updates and the user is outside of the geoFencePolygon. Takes an optional object containing options for accuracy, timeout and age.
+
+** Things to note about order of lat long points in polygon array. The order of the points are very important. They should be entered in the order you would you would draw them. Think about it like a connect the dots drawing, you need to start with a specific point and end with a specific point if you want the polygon to be correct. 
+*** Even though the example only has 4 points you can have as many as you would like. 
+
+```javascript
+var fence;
+var polygon = [
+    {lat: 34.045303, lon: -118.334650},  // top left  
+    {lat: 34.045252, lon: -118.334462},  // top right 
+    {lat: 34.045131, lon: -118.334498},  // bottom right
+    {lat: 34.045185, lon: -118.334684},  // bottom left
+];
+function setup(){
+
+    //optional options object for geoFencegeoFencePolygon
+    //fence = new geoFenceCircle(polygon, insideTheFence, 'mi', fenceOptions)
+    // fenceOptions = {
+    //   enableHighAccuracy: false,
+    //   timeout: 5000,
+    //   maximumAge: 0
+    // };
+
+    fence = new geoFenceCircle(polygon, insideTheFence, outsideTheFence, 'mi')
+}
+
+function insideTheFence(position){
+    print("INlat: " + position.latitude);
+    print("INlong: " + position.longitude);
+    print("user is inside of the fence")
+}
+
+function outsideTheFence(position){
+    print("OUTlat: " + position.latitude);
+    print("OUTlong: " + position.longitude);
+    print("user is outside of the fence")
+}
+```
+#### geoFencePolygon() insideFence boolean
+###### geoFencePolygon(ArrayOfObjectsWithLatLong, insideCallback, outsideCallback, units, options)
+geoFencePolygon also has a useful parameter for checking the fence status. .insideFence when called on your geoFencePolygon object will return true or false depending on the users relationship to the fence.
+```javascript
+var fence;
+    {lat: 34.045303, lon: -118.334650},  // top left  
+    {lat: 34.045252, lon: -118.334462},  // top right 
+    {lat: 34.045131, lon: -118.334498},  // bottom right
+    {lat: 34.045185, lon: -118.334684},  // bottom left
+];
+function setup(){
+    fence = new geoFencePolygon(polygon)
+}
+
+function draw(){
+    print(fence.insideFence);
 }
 ```

@@ -199,7 +199,30 @@ p5.prototype.calcGeoDistance = function(lat1, lon1, lat2, lon2, units) {
 
 
 /**
-* Create a new geofence
+* Calculate if a Location is inside Polygon
+*
+*
+* @method watchPosition
+* @param  {float} Array of Objects with lat: and lon:
+* @param  {float} Object with lat and long of my location
+* @return {boolean} true if geolocation is within polygon
+*/
+
+// http://jsfromhell.com/math/is-point-in-poly
+// Adapted from: [http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html] 
+// Used Under MIT License
+p5.prototype.isLocationInPolygon = function(poly, pt){
+    for(var c = false, i = -1, l = poly.length, j = l - 1; ++i < l; j = i)
+        ((poly[i].lon <= pt.lon && pt.lon < poly[j].lon) || (poly[j].lon <= pt.lon && pt.lon < poly[i].lon))
+        && (pt.lat < (poly[j].lat - poly[i].lat) * (pt.lon - poly[i].lon) / (poly[j].lon - poly[i].lon) + poly[i].lat)
+        && (c = !c);
+    return c;
+}
+
+
+ 
+/**
+* Create a new geoFenceCircle
 *
 * Watches the users current position and checks to see if they are witihn a set radius of a specified point.
 *
@@ -207,12 +230,12 @@ p5.prototype.calcGeoDistance = function(lat1, lon1, lat2, lon2, units) {
 * @param  {float} latitude of the first point
 * @param  {float} longitude of the first point
 * @param  {float} distance from the point to trigger the insideCallback
-* @param  {function} a callback to fire when the user is inside the geoFence
-* @param  {function} a callback to fire when the user is outside the geoFence
+* @param  {function} a callback to fire when the user is inside the geoFenceCircle
+* @param  {function} a callback to fire when the user is outside the geoFenceCircle
 * @param  {string} units to use: 'km' or 'mi', 'mi' is default if left blank
 * @param  {object} an positionOptions object: enableHighAccuracy, maximumAge, timeout
 */
-p5.prototype.geoFence = function(lat, lon, fence, insideCallback, outsideCallback, units, options){
+p5.prototype.geoFenceCircle = function(lat, lon, fence, insideCallback, outsideCallback, units, options){
 
   this.lat = lat;
   this.lon = lon;
@@ -225,7 +248,7 @@ p5.prototype.geoFence = function(lat, lon, fence, insideCallback, outsideCallbac
   this.options = options;
 
     this.geoError = function(message){
-      console.log("geoFence Error :" + message);
+      console.log("geoFenceCircle Error :" + message);
     }
 
     this.success = function(position){
@@ -241,7 +264,64 @@ p5.prototype.geoFence = function(lat, lon, fence, insideCallback, outsideCallbac
     }
 
     if (navigator.geolocation) {
-      // bind the callbacks to the geoFence 'this' so we can access, this.lat, this.lon, etc..
+      // bind the callbacks to the geoFenceCircle 'this' so we can access, this.lat, this.lon, etc..
+      navigator.geolocation.watchPosition(this.success.bind(this), this.geoError.bind(this), this.options);
+    }else{
+      geoError("geolocation not available");
+    };
+}
+
+
+
+
+
+/**
+* Create a new geoFencePolygon
+*
+* Watches the users current position and checks to see if they are witihn a set radius of a specified point.
+*
+* @method watchPosition
+* @param  {float} latitude of the first point
+* @param  {float} longitude of the first point
+* @param  {float} distance from the point to trigger the insideCallback
+* @param  {function} a callback to fire when the user is inside the geoFenceCircle
+* @param  {function} a callback to fire when the user is outside the geoFenceCircle
+* @param  {string} units to use: 'km' or 'mi', 'mi' is default if left blank
+* @param  {object} an positionOptions object: enableHighAccuracy, maximumAge, timeout
+*/
+
+
+/*var points = [
+    {x: 34.076089, y: -118.440915},
+    {x: 34.076095, y: -118.440605},
+    {x: 34.075906, y: -118.440597},
+    {x: 34.075891, y: -118.440932},
+];*/
+p5.prototype.geoFencePolygon = function( ArrayOfObjectsWithLatLong, insideCallback, outsideCallback, units, options){
+
+  this.ArrayOfObjectsWithLatLong = ArrayOfObjectsWithLatLong;
+  this.units = units; //this should work since calcGeoDistance defaults to miles.
+  this.insideCallback = insideCallback;
+  this.outsideCallback = outsideCallback;
+  this.insideFence = false;
+  this.options = options;
+
+    this.geoError = function(message){
+      console.log("geoFencePolygon Error :" + message);
+    }
+
+    this.success = function(position){
+      this.insideFence = isLocationInPolygon(this.ArrayOfObjectsWithLatLong, { lat:position.coords.latitude, lon: position.coords.longitude });
+
+      if(this.insideFence == true){
+          if(typeof this.insideCallback == 'function'){ this.insideCallback(position.coords) };
+      }else{
+        if(typeof this.outsideCallback == 'function'){ this.outsideCallback(position.coords) };
+      }
+    }
+
+    if (navigator.geolocation) {
+      // bind the callbacks to the geoFenceCircle 'this' so we can access, this.lat, this.lon, etc..
       navigator.geolocation.watchPosition(this.success.bind(this), this.geoError.bind(this), this.options);
     }else{
       geoError("geolocation not available");
