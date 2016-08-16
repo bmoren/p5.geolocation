@@ -246,6 +246,7 @@ p5.prototype.geoFenceCircle = function(lat, lon, fence, insideCallback, outsideC
   this.outsideCallback = outsideCallback;
   this.insideFence = false;
   this.options = options;
+  this.id = '';
 
     this.geoError = function(message){
       console.log("geoFenceCircle Error :" + message);
@@ -262,10 +263,17 @@ p5.prototype.geoFenceCircle = function(lat, lon, fence, insideCallback, outsideC
         this.insideFence = false;
       }
     }
+    
+    this.clear = function() {
+      if (this.id) {
+        navigator.geolocation.clearWatch(this.id);
+        this.id = '';
+      }
+    }
 
     if (navigator.geolocation) {
       // bind the callbacks to the geoFenceCircle 'this' so we can access, this.lat, this.lon, etc..
-      navigator.geolocation.watchPosition(this.success.bind(this), this.geoError.bind(this), this.options);
+      this.id = navigator.geolocation.watchPosition(this.success.bind(this), this.geoError.bind(this), this.options);
     }else{
       geoError("geolocation not available");
     };
@@ -305,6 +313,7 @@ p5.prototype.geoFencePolygon = function( ArrayOfObjectsWithLatLong, insideCallba
   this.outsideCallback = outsideCallback;
   this.insideFence = false;
   this.options = options;
+  this.id = '';
 
     this.geoError = function(message){
       console.log("geoFencePolygon Error :" + message);
@@ -319,10 +328,17 @@ p5.prototype.geoFencePolygon = function( ArrayOfObjectsWithLatLong, insideCallba
         if(typeof this.outsideCallback == 'function'){ this.outsideCallback(position.coords) };
       }
     }
+    
+    this.clear = function() {
+      if (this.id) {
+        navigator.geolocation.clearWatch(this.id);
+        this.id = '';
+      }
+    }
 
     if (navigator.geolocation) {
       // bind the callbacks to the geoFenceCircle 'this' so we can access, this.lat, this.lon, etc..
-      navigator.geolocation.watchPosition(this.success.bind(this), this.geoError.bind(this), this.options);
+      this.id = navigator.geolocation.watchPosition(this.success.bind(this), this.geoError.bind(this), this.options);
     }else{
       geoError("geolocation not available");
     };
