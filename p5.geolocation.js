@@ -209,7 +209,7 @@ p5.prototype.calcGeoDistance = function(lat1, lon1, lat2, lon2, units) {
 */
 
 // http://jsfromhell.com/math/is-point-in-poly
-// Adapted from: [http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html] 
+// Adapted from: [http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html]
 // Used Under MIT License
 p5.prototype.isLocationInPolygon = function(poly, pt){
     for(var c = false, i = -1, l = poly.length, j = l - 1; ++i < l; j = i)
@@ -220,7 +220,7 @@ p5.prototype.isLocationInPolygon = function(poly, pt){
 }
 
 
- 
+
 /**
 * Create a new geoFenceCircle
 *
@@ -263,7 +263,7 @@ p5.prototype.geoFenceCircle = function(lat, lon, fence, insideCallback, outsideC
         this.insideFence = false;
       }
     }
-    
+
     this.clear = function() {
       if (this.id) {
         navigator.geolocation.clearWatch(this.id);
@@ -328,7 +328,7 @@ p5.prototype.geoFencePolygon = function( ArrayOfObjectsWithLatLong, insideCallba
         if(typeof this.outsideCallback == 'function'){ this.outsideCallback(position.coords) };
       }
     }
-    
+
     this.clear = function() {
       if (this.id) {
         navigator.geolocation.clearWatch(this.id);

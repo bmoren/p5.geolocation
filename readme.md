@@ -8,7 +8,7 @@ This activity is made possible by a research & planning grant from [Forecast Pub
 ##### Useful Tips
 + When using the p5.js editor, you must 'run in browser' to emulate or receive location events.
 + [How to Add a library to your p5.js sketch](https://github.com/processing/p5.js/wiki/Libraries#adding-a-library-to-your-project)
-+ IMPORTANT: Be aware that Google, Mozilla, Apple, Microsoft, are all in the process of banning several features from web pages that are served from HTTP instead of HTTPS (secure http)(https://sites.google.com/a/chromium.org/dev/Home/chromium-security/deprecating-powerful-features-on-insecure-origins) You can still do this but it needs to be over "secure origins" (such as HTTPS) and this can be done by obtaining a SSL certificate. [Check out letsencrypt.org for a free & open option](https://letsencrypt.org/), or contact your hosting provider to see how this can be done. 
++ IMPORTANT: Be aware that Google, Mozilla, Apple, Microsoft, are all in the process of banning several features from web pages that are served from HTTP instead of HTTPS (secure http)(https://sites.google.com/a/chromium.org/dev/Home/chromium-security/deprecating-powerful-features-on-insecure-origins) You can still do this but it needs to be over "secure origins" (such as HTTPS) and this can be done by obtaining a SSL certificate. [Check out letsencrypt.org for a free & open option](https://letsencrypt.org/), or contact your hosting provider to see how this can be done.
 
 ##### License
 p5.geolocaiton is licensed under the [GNU LGPL 2.1](http://choosealicense.com/licenses/lgpl-2.1/).
@@ -111,7 +111,7 @@ function mousePressed(){
 
 #### intervalCurrentPosition() used with a callback
 ###### intervalCurrentPosition(callback, interval,  errorCallback)
-intervalCurrentPosition() is a hybrid of watchPosition() and getCurrentPosition(). It executes the getCurretnPosition() function on a interval in Milliseconds via an optional second parameter, default is 5000ms. This is useful when you need more nuanced changed location detection than watchPosition() can provide.
+intervalCurrentPosition() is a hybrid of watchPosition() and getCurrentPosition(). It executes the getCurrentPosition() function on a interval in Milliseconds via an optional second parameter, default is 5000ms. This is useful when you need more nuanced changed location detection than watchPosition() can provide.
 ```javascript
 function setup(){
     intervalCurrentPosition(positionPing, 5000)
@@ -171,6 +171,20 @@ function outsideTheFence(position){
     print("user is outside of the fence")
 }
 ```
+geoFenceCircle can be cleared using .clear()
+
+```javascript
+var fence;
+function setup(){
+    fence = new geoFenceCircle(44.979779, -93.325499, 0.05, insideTheFence, outsideTheFence, 'mi')
+}
+
+function mousePressed(){
+	fence.clear();
+}
+
+```
+
 #### geoFenceCircle() insideFence boolean
 ###### geoFenceCircle(latitude, longitude, fenceDistance, insideCallback, outsideCallback, units, options)
 geoFenceCircle has a useful parameter for checking the fence status. .insideFence when called on your geoFenceCircle object will return true or false depending on the users relationship to the fence.
@@ -191,14 +205,14 @@ function draw(){
 ###### geoFencePolygon(ArrayOfObjectsWithLatLong, insideCallback, outsideCallback, units, options)
 geoFencePolygon() is class which creates a geoFencePolygon around the provided array of object that contain lat/long points. It will fire a callback with an object containing position data when the user is inside of the geoFencePolygon each time the location updates. It will fire a second callback each time the position updates and the user is outside of the geoFencePolygon. Takes an optional object containing options for accuracy, timeout and age.
 
-** Things to note about order of lat long points in polygon array. The order of the points are very important. They should be entered in the order you would you would draw them. Think about it like a connect the dots drawing, you need to start with a specific point and end with a specific point if you want the polygon to be correct. 
-*** Even though the example only has 4 points you can have as many as you would like. 
+** Things to note about order of lat long points in polygon array. The order of the points are very important. They should be entered in the order you would you would draw them. Think about it like a connect the dots drawing, you need to start with a specific point and end with a specific point if you want the polygon to be correct.
+*** Even though the example only has 4 points you can have as many as you would like.
 
 ```javascript
 var fence;
 var polygon = [
     {lat: 34.045303, lon: -118.334650},  // top left  
-    {lat: 34.045252, lon: -118.334462},  // top right 
+    {lat: 34.045252, lon: -118.334462},  // top right
     {lat: 34.045131, lon: -118.334498},  // bottom right
     {lat: 34.045185, lon: -118.334684},  // bottom left
 ];
@@ -212,7 +226,7 @@ function setup(){
     //   maximumAge: 0
     // };
 
-    fence = new geoFenceCircle(polygon, insideTheFence, outsideTheFence, 'mi')
+    fence = new geoFencePolygon(polygon, insideTheFence, outsideTheFence, 'mi')
 }
 
 function insideTheFence(position){
@@ -227,6 +241,19 @@ function outsideTheFence(position){
     print("user is outside of the fence")
 }
 ```
+geoFencePolygon can be cleared using .clear()
+
+```javascript
+var fence;
+function setup(){
+    fence = new geoFenceCircle(44.979779, -93.325499, 0.05, insideTheFence, outsideTheFence, 'mi')
+}
+
+function mousePressed(){
+	fence.clear();
+}
+
+```
 #### geoFencePolygon() insideFence boolean
 ###### geoFencePolygon(ArrayOfObjectsWithLatLong, insideCallback, outsideCallback, units, options)
 geoFencePolygon also has a useful parameter for checking the fence status. .insideFence when called on your geoFencePolygon object will return true or false depending on the users relationship to the fence.
@@ -234,7 +261,7 @@ geoFencePolygon also has a useful parameter for checking the fence status. .insi
 var fence;
 var polygon = [
     {lat: 34.045303, lon: -118.334650},  // top left  
-    {lat: 34.045252, lon: -118.334462},  // top right 
+    {lat: 34.045252, lon: -118.334462},  // top right
     {lat: 34.045131, lon: -118.334498},  // bottom right
     {lat: 34.045185, lon: -118.334684},  // bottom left
 ];
