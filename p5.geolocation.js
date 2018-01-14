@@ -2,7 +2,7 @@ console.log("%c p5.geolocation Loaded ", "color:pink; background:black; ");
 
 
 /**
-* Check if locaiton services are available
+* Check if location services are available
 *
 * Returns true if geolocation is available
 *
