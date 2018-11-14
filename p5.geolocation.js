@@ -72,7 +72,7 @@ p5.prototype.getCurrentPosition = function(callback, errorCallback) {
 };
 
 //add the get Current position to the preload stack.
-p5.prototype.registerPreloadMethod('getCurrentPosition');
+p5.prototype.registerPreloadMethod('getCurrentPosition', p5.prototype);
 
 /**
 * Get User's Current Position on an interval
