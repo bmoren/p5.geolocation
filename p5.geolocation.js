@@ -31,6 +31,7 @@ p5.prototype.geoCheck = function(){
 p5.prototype.getCurrentPosition = function(callback, errorCallback) {
 
   var ret = {};
+  var self = this;
 
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(success, geoError);
@@ -38,13 +39,13 @@ p5.prototype.getCurrentPosition = function(callback, errorCallback) {
     geoError("geolocation not available");
   };
 
-    function geoError(message){
-      console.log(message.message);
-      ret.error = message.message;
-       if(typeof errorCallback == 'function'){ errorCallback(message.message) };
-    }
+  function geoError(message){
+    console.log(message.message);
+    ret.error = message.message;
+    if(typeof errorCallback == 'function'){ errorCallback(message.message) };
+  }
 
-    function success(position){
+  function success(position){
       // console.log(position);
 
       //get the entire position object....
@@ -61,14 +62,15 @@ p5.prototype.getCurrentPosition = function(callback, errorCallback) {
       // }
 
       //get only the coords part of the position object
-          for(var x in position.coords){
-            ret[x] = position.coords[x];
-          }
-
-      if(typeof callback == 'function'){ callback(position.coords) };
+    for(var x in position.coords){
+      ret[x] = position.coords[x];
+      ret['timestamp'] = position.timestamp;
     }
+    if (typeof self._decrementPreload === 'function') { self._decrementPreload() };
+    if(typeof callback == 'function'){ callback(position.coords) };
+  }
 
-    return ret;
+  return ret;
 };
 
 //add the get Current position to the preload stack.
